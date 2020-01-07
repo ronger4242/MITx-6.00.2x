@@ -12,4 +12,4 @@ All code in this course uses Python 3.x.
 There are four python files avaiable.
 
 ## Acknowledgements
-Credits must be given to Airbnb
+Credits must be given to edX and MITx.
