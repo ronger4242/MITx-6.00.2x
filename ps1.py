@@ -54,8 +54,20 @@ def greedy_cow_transport(cows,limit=10):
     transported on a particular trip and the overall list containing all the
     trips
     """
-    # TODO: Your code here
-    pass
+    cowsCopy = cows.copy()
+    sorted_cows = sorted(cowsCopy.items(), key = lambda x:x[1], reverse = True)
+    #sorted_cows is a list, not the original dictionary
+    trip = []
+    while sum(cowsCopy.values()) > 0:
+        total_weight = 0
+        ship = []
+        for cow, weight in sorted_cows:
+            if total_weight + weight <= space and cowsCopy[cow] !=0:
+                ship.append(cow)
+                total_weight += weight
+                cowsCopy[cow] = 0
+        trip.append(ship)
+    return trip
 
 
 # Problem 2
@@ -79,8 +91,33 @@ def brute_force_cow_transport(cows,limit=10):
     transported on a particular trip and the overall list containing all the
     trips
     """
-    # TODO: Your code here
-    pass
+    cowsCopy = cows.copy()
+    power_set =  get_partitions(cows)
+    ship_space = []
+    for partition in power_set:
+        overweight = False
+        weight_ship = [] #create a weight list for each combination (multiple ships)
+        for item in partition:
+            weight = 0
+            for cow in item:
+                weight += cowsCopy[cow] #create a weight list for each ship
+            weight_ship.append(weight)
+        
+        for weight in weight_ship:
+            if weight > space:
+                overweight = True
+        if not overweight:
+            ship_space.append(partition)
+    possibilities = [] #remove the duplicated ships
+    for item in ship_space:
+        if item not in possibilities:
+            possibilities.append(item)
+    min_list = min(map(len, possibilities))
+    result = []
+    for combo in possibilities:
+        if len(combo) == min_list:
+            result.append(combo)
+    return result
 
         
 # Problem 3
